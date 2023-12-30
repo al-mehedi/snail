@@ -5,8 +5,11 @@ pub fn build(b: *std.Build) void {
 
     const optimize = b.standardOptimizeOption(.{});
 
+    // Export module
+    _ = b.addModule("snail", .{ .source_file = . { .path = "src/snail.zig"} });
+
     const exe = b.addExecutable(.{
-        .name = "tmpl_zig",
+        .name = "snail",
         .root_source_file = .{ .path = "src/main.zig" },
         .target = target,
         .optimize = optimize,

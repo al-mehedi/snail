@@ -1,15 +1,30 @@
-const std = @import("std");
+const snail = @import("snail.zig");
 
 pub fn main() void {
-    const sum = add(50, 1);
-    std.debug.print("👽 - Area {}!\n", .{sum});
+    // With default code iteration
+    snail.benchmark("addition", measure_add, null);
+    snail.benchmark("addition", measure_add_explicit, null);
+
+    // With manual code iteration
+    snail.benchmark("addition", measure_add, 1000);
+    snail.benchmark("addition", measure_add_explicit, 1000);
 }
+
 
 fn add(x: i32, y: i32) i32 {
     return x + y;
 }
 
-test "Awe-sum" {
-    const sum = add(11, 8);
-    try std.testing.expect(sum == 19);
+fn measure_add(ctx: *snail.Context) void {
+    while (ctx.run()) {
+        _ = add(56, 44);
+    }
+}
+
+fn measure_add_explicit(ctx: *snail.Context) void {
+    while (ctx.ready()) {
+        ctx.start();
+        defer ctx.stop();
+        _ = add(56, 44);
+    }
 }

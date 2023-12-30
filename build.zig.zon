@@ -1,5 +1,5 @@
 .{
-    .name = "tmpl_zig",
+    .name = "snail",
     .version = "0.1.0",
     .paths = .{
         "src",
